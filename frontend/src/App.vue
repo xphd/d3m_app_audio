@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Hello World!</h1>
-    <button @click="getSth">Get Request</button>
+    <button @click="sendRequest">Send Request</button>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
   },
   sockets: {
     connect: function() {
-      console.log("socket connected frontend");
+      console.log("Client: get Server");
     },
     customEmit: function(val) {
       console.log(
@@ -23,7 +23,7 @@ export default {
     }
   },
   methods: {
-    getSth() {
+    sendRequest() {
       this.$socket.emit("start");
       // console.log("getSth is invoked!");
       // this.$http.get("http://localhost:5000/").then(
