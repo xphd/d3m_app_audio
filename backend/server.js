@@ -7,7 +7,7 @@ var router = express.Router();
 // Add headers
 app.use(function(req, res, next) {
   // Website you wish to allow to connect
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
   // Request methods you wish to allow
   res.setHeader(
@@ -28,6 +28,8 @@ app.use(function(req, res, next) {
   // Pass to next layer of middleware
   next();
 });
+
+app.use(express.static("public"));
 
 var server = http.createServer(app);
 

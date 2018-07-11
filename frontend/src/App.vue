@@ -2,14 +2,20 @@
   <div id="app">
     <h1>Hello World!</h1>
     <button @click="sendRequest">Send Request</button>
+    <RawAudioViews></RawAudioViews>
   </div>
 </template>
 
 <script>
+import RawAudioViews from "./components/cards/RawAudioViews.vue";
+
 export default {
   name: "app",
   data() {
     return {};
+  },
+  components: {
+    RawAudioViews
   },
   sockets: {
     connect: function() {
@@ -26,7 +32,7 @@ export default {
     sendRequest() {
       this.$socket.emit("start");
       // console.log("getSth is invoked!");
-      // this.$http.get("http://localhost:5000/").then(
+      // this.$http.get("http://localhost:3000/").then(
       //   res => {
       //     console.log(res);
       //   },
