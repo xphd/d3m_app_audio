@@ -26,14 +26,14 @@ export default {
   components: {
     RawAudioView
   },
-  created() {
-    let recaptchaScript = document.createElement("script");
-    recaptchaScript.setAttribute(
-      "src",
-      "//cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/2.0.5/wavesurfer.min.js"
-    );
-    document.head.appendChild(recaptchaScript);
-  }
+  // created() {
+  //   let recaptchaScript = document.createElement("script");
+  //   recaptchaScript.setAttribute(
+  //     "src",
+  //     "//cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/2.0.5/wavesurfer.min.js"
+  //   );
+  //   document.head.appendChild(recaptchaScript);
+  // }
 };
 </script>
 

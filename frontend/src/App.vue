@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Hello World!</h1>
-    <button @click="sendRequest">Send Request</button>
+    <button @click="sendRequest">Get Audio</button>
     <RawAudioViews></RawAudioViews>
   </div>
 </template>
@@ -21,16 +21,19 @@ export default {
     connect: function() {
       console.log("Client: get Server");
     },
-    customEmit: function(val) {
-      console.log(
-        'this method was fired by the socket server. eg: io.emit("customEmit", data)' +
-          val
-      );
+    // customEmit: function(val) {
+    //   console.log(
+    //     'this method was fired by the socket server. eg: io.emit("customEmit", data)' +
+    //       val
+    //   );
+    // }
+    returnAudio: function(audio) {
+      console.log(audio);
     }
   },
   methods: {
     sendRequest() {
-      this.$socket.emit("start");
+      this.$socket.emit("getAudio");
       // console.log("getSth is invoked!");
       // this.$http.get("http://localhost:3000/").then(
       //   res => {
