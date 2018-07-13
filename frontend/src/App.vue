@@ -2,12 +2,12 @@
   <div id="app">
     <h1>Hello World!</h1>
     <button @click="sendRequest">Get Audio</button>
-    <RawAudioViews></RawAudioViews>
+    <RawAudioView></RawAudioView>
   </div>
 </template>
 
 <script>
-import RawAudioViews from "./components/cards/RawAudioViews.vue";
+import RawAudioView from "./components/cards/RawAudioView.vue";
 
 export default {
   name: "app",
@@ -15,7 +15,7 @@ export default {
     return {};
   },
   components: {
-    RawAudioViews
+    RawAudioView
   },
   sockets: {
     connect: function() {

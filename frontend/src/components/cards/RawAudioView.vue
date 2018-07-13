@@ -1,74 +1,74 @@
 <template>
 <div>
-  <p>RawAudioView Child</p>
-  <!-- #waveform will be replaced later by WaveSurfer -->
-  <div :id="id"></div>
+    <p>RawAudioViews Parent</p>
 
-  <div style="text-align: center">
-    <button class="btn btn-primary" @click="wavesurfer.skipBackward()">
-      <i class="glyphicon glyphicon-step-backward"></i>
-      Backward
-    </button>
+    <template v-for="audio in audios">
+        <RawAudioViewSingle :audio='audio' :key="audio.id"></RawAudioViewSingle>
+    </template>
+    <!-- <RawAudioViewSingle :audio='audios[0]'></RawAudioViewSingle> -->
 
-    <button class="btn btn-primary" @click="wavesurfer.playPause()">
-      <i class="glyphicon glyphicon-play"></i>
-      Play /
-      <i class="glyphicon glyphicon-pause"></i>
-      Pause
-    </button>
+    <br>
+    <button @click="loadMore" class="btn btn-primary">Load More</button>
 
-    <button class="btn btn-primary" @click="wavesurfer.skipForward()">
-      <i class="glyphicon glyphicon-step-forward"></i>
-      Forward
-    </button>
-
-    <button class="btn btn-primary" @click="wavesurfer.toggleMute()">
-      <i class="glyphicon glyphicon-volume-off"></i>
-      Toggle Mute
-    </button>
-
-  </div>
-
-  
 </div>
 </template>
 
 <script>
+import RawAudioViewSingle from "./RawAudioViewSingle.vue";
 export default {
-  props: ["audio"], // audio is an object with id and url of audio file
-  data: function() {
+  data() {
     return {
-      // wavefurfer will be created by WaveSurfer.create()
-      wavesurfer: null,
+      audioLinks: this.$store.getters.getAudioLinks,
 
-      // pass the audio info
-      id: this.audio.id,
-      url: this.audio.url
+      audios: [], // populated once created, {id, link}, link in from audioLinks
+
+      numOfAudioLinks: 0, // number of audioLinks
+      numOfFirstLoaded: 3, // numver of audios firstly loaded
+      numOfEachLoaded: 2, // numver of audios loaded each time the button is pressed
+      indexOfLastLoaded: 0 // record the index of the last loaded audio
     };
   },
+  methods: {
+    loadMore: () => {
+      console.log("load more");
+      // if all audios have been loaded, indexOfLastLoaded is same as numOfAudioLinks-1, then return
+      if (this.indexOfLastLoaded == this.numOfAudioLinks - 1) {
+        console.log("No more audio to load");
+        return;
+      }
+      var len = this.numOfAudioLinks;
+      var indexLastEnd = this.indexOfLastLoaded;
+      var indexEnd = Math.min(indexLastEnd + this.numOfEachLoaded, len - 1);
+      this.indexOfLastLoaded = indexEnd;
 
-  // after the template is crated, mount it
-  // WaveSurfer is from wavesurfer.min.js, it can be accessed from window
-  // that's why to use window.WaveSurfer
-  mounted() {
-    //wavesurfer is declared in Vue data component
-    this.wavesurfer = window.WaveSurfer.create({
-      container: "#" + this.id,
-      waveColor: "red",
-      progressColor: "purple"
-    });
+      for (var i = indexLastEnd + 1; i <= indexEnd; i++) {
+        var audio = {
+          id: i,
+          link: this.audioLinks[i]
+        };
+        this.audios.push(audio);
+      }
+      console.log(this.audios.length);
+    }
+  },
+  created() {
+    // create audio object, {id, link}, link is from audioLinks
+    // for each audio link in audioLinks, create an object with id and link
+    var len = this.audioLinks.length;
+    this.numOfAudioLinks = len;
+    this.indexOfLastLoaded = Math.min(len - 1, this.numOfFirstLoaded - 1);
+    for (var i = 0; i <= this.indexOfLastLoaded; i++) {
+      var audio = {
+        id: i,
+        link: this.audioLinks[i]
+      };
+      this.audios.push(audio);
+    }
+    console.log();
+  },
 
-    // load a sample mp3 file from cloud
-    // this.wavesurfer.load(
-    //   "https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3"
-    // );
-    // var url =
-    // "https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3";
-    // var path = "/src/static/344.wav";
-    // var unregisterModule = "/src/static/204919.mp3";
-    // var path = "/src/static/SampleAudio_0.4mb.mp3";
-    var url = this.url;
-    this.wavesurfer.load(url);
+  components: {
+    RawAudioViewSingle
   }
 };
 </script>
