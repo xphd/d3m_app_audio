@@ -1,35 +1,32 @@
 <template>
 <div>
-  <p>RawAudioView Child</p>
-  <!-- #waveform will be replaced later by WaveSurfer -->
-  <div :id="id"></div>
+    <p>RawAudioView Child</p>
+    <p>{{ link }}</p>
+    <!-- #waveform will be replaced later by WaveSurfer -->
+    <div :id="id"></div>
+    <div style="text-align: center">
+        <button class="btn btn-primary" @click="wavesurfer.skipBackward()">
+            <i class="glyphicon glyphicon-step-backward"></i>
+            Backward
+        </button>
 
-  <div style="text-align: center">
-    <button class="btn btn-primary" @click="wavesurfer.skipBackward()">
-      <i class="glyphicon glyphicon-step-backward"></i>
-      Backward
-    </button>
+        <button class="btn btn-primary" @click="wavesurfer.playPause()">
+            <i class="glyphicon glyphicon-play"></i>
+            Play /
+            <i class="glyphicon glyphicon-pause"></i>
+            Pause
+        </button>
 
-    <button class="btn btn-primary" @click="wavesurfer.playPause()">
-      <i class="glyphicon glyphicon-play"></i>
-      Play /
-      <i class="glyphicon glyphicon-pause"></i>
-      Pause
-    </button>
+        <button class="btn btn-primary" @click="wavesurfer.skipForward()">
+            <i class="glyphicon glyphicon-step-forward"></i>
+            Forward
+        </button>
 
-    <button class="btn btn-primary" @click="wavesurfer.skipForward()">
-      <i class="glyphicon glyphicon-step-forward"></i>
-      Forward
-    </button>
-
-    <button class="btn btn-primary" @click="wavesurfer.toggleMute()">
-      <i class="glyphicon glyphicon-volume-off"></i>
-      Toggle Mute
-    </button>
-
-  </div>
-
-  
+        <button class="btn btn-primary" @click="wavesurfer.toggleMute()">
+            <i class="glyphicon glyphicon-volume-off"></i>
+            Toggle Mute
+        </button>
+    </div>
 </div>
 </template>
 
@@ -47,10 +44,6 @@ export default {
     };
   },
 
-  created() {
-    console.log(this.link);
-  },
-
   // after the template is crated, mount it
   // WaveSurfer is from wavesurfer.min.js, it can be accessed from window
   // that's why to use window.WaveSurfer
@@ -63,6 +56,10 @@ export default {
     });
     this.wavesurfer.load(this.link);
   }
+
+  // created() {
+  //   console.log(this.link);
+  // },
 };
 </script>
 
