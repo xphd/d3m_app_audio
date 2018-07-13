@@ -2,7 +2,9 @@
   <div id="app">
     <h1>Hello World!</h1>
     <button @click="sendRequest">Get Audio</button>
+    <button @click="getAudioLinks">Get Audio Links</button>
     <RawAudioView></RawAudioView>
+
   </div>
 </template>
 
@@ -21,28 +23,23 @@ export default {
     connect: function() {
       console.log("Client: get Server");
     },
-    // customEmit: function(val) {
-    //   console.log(
-    //     'this method was fired by the socket server. eg: io.emit("customEmit", data)' +
-    //       val
-    //   );
-    // }
+
     returnAudio: function(audio) {
       console.log(audio);
+    },
+
+    returnAudioLinks: function(audioLinks) {
+      console.log(audioLinks);
     }
   },
   methods: {
     sendRequest() {
+      console.log("sendRequest activate");
       this.$socket.emit("getAudio");
-      // console.log("getSth is invoked!");
-      // this.$http.get("http://localhost:3000/").then(
-      //   res => {
-      //     console.log(res);
-      //   },
-      //   err => {
-      //     console.log(err);
-      //   }
-      // );
+    },
+
+    getAudioLinks() {
+      this.$socket.emit("getAudioLinks");
     }
   }
 };

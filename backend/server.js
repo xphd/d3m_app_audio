@@ -1,9 +1,11 @@
 var express = require("express");
 var http = require("http");
 var socketIO = require("socket.io");
+var fs = require("fs");
 
 var app = express();
 var router = express.Router();
+
 // Add headers
 app.use(function(req, res, next) {
   // Website you wish to allow to connect
@@ -47,6 +49,17 @@ io.on("connection", socket => {
   socket.on("getAudio", () => {
     console.log("returnAudio emitted");
     socket.emit("returnAudio", audio);
+  });
+
+  socket.on("getAudioLinks", () => {
+    console.log("getAudioLinks activated");
+    var audioLinks = [];
+    const testFolder = "./public/";
+    fs.readdirSync(testFolder).forEach(file => {
+      audioLinks.push(file);
+    });
+    console.log("returnAudioLinks activated");
+    socket.emit("returnAudioLinks", audioLinks);
   });
 });
 
