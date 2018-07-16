@@ -9,6 +9,8 @@
 
     <br>
     <button @click="loadMore" class="btn btn-primary">Load More</button>
+    <button @click="generateAudios" class="btn btn-primary">generateAudios</button>
+    
 
 </div>
 </template>
@@ -18,7 +20,8 @@ import RawAudioViewSingle from "./RawAudioViewSingle.vue";
 export default {
   data: function() {
     return {
-      audioLinks: this.$store.getters.getAudioLinks,
+      // audioLinks: this.$store.state.audioLinks,
+      audioLinks: [],
 
       audios: [], // populated once created, {id, link}, link in from audioLinks
 
@@ -28,7 +31,37 @@ export default {
       indexOfLastLoaded: 0 // record the index of the last loaded audio
     };
   },
+  sockets: {
+    connect: function() {
+      console.log("Client: get Server");
+    },
+
+    // returnAudio: function(audio) {
+    //   console.log(audio);
+    // },
+
+    // listen for "returnAudioLinks" emmited from backend with data "audioLinks"
+    returnAudioLinks: function(audioLinks) {
+      // console.log(audioLinks);
+
+      this.$store.commit("setAudioLinks", audioLinks);
+      console.log("From store getters getAudioLinks");
+      console.log(this.$store.getters.getAudioLinks);
+      this.generateAudios();
+    }
+  },
   methods: {
+    // sendRequest() {
+    //   console.log("sendRequest activate");
+    //   this.$socket.emit("getAudio");
+    // },
+
+    // emit "getAudioLinks" to backend server
+    getAudioLinks() {
+      console.log("getAudioLinks emitted");
+      this.$socket.emit("getAudioLinks");
+    },
+
     loadMore() {
       // if all audios have been loaded, indexOfLastLoaded is same as numOfAudioLinks-1, then return
       if (this.indexOfLastLoaded == this.numOfAudioLinks - 1) {
@@ -39,6 +72,7 @@ export default {
       var indexLastEnd = this.indexOfLastLoaded;
       var indexEnd = Math.min(indexLastEnd + this.numOfEachLoaded, len - 1);
       this.indexOfLastLoaded = indexEnd;
+
       for (var i = indexLastEnd + 1; i <= indexEnd; i++) {
         var audio = {
           id: i,
@@ -48,22 +82,30 @@ export default {
         console.log(audio);
       }
       // console.log(this.audios.len);
+    },
+
+    generateAudios() {
+      // create audio object, {id, link}, link is from audioLinks
+      // for each audio link in audioLinks, create an object with id and link
+      this.audioLinks = this.$store.state.audioLinks;
+      console.log(this.audioLinks);
+      this.numOfAudioLinks = this.audioLinks.length; // len for shortcut
+      var len = this.numOfAudioLinks;
+      console.log(len);
+      this.indexOfLastLoaded = Math.min(len, this.numOfFirstLoaded) - 1;
+      this.audios = [];
+      for (var i = 0; i <= this.indexOfLastLoaded; i++) {
+        var audio = {
+          id: i,
+          link: this.audioLinks[i]
+        };
+        this.audios.push(audio);
+      }
     }
   },
   created() {
-    // create audio object, {id, link}, link is from audioLinks
-    // for each audio link in audioLinks, create an object with id and link
-    this.numOfAudioLinks = this.audioLinks.length; // len for shortcut
-    var len = this.numOfAudioLinks;
-
-    this.indexOfLastLoaded = Math.min(len, this.numOfFirstLoaded) - 1;
-    for (var i = 0; i <= this.indexOfLastLoaded; i++) {
-      var audio = {
-        id: i,
-        link: this.audioLinks[i]
-      };
-      this.audios.push(audio);
-    }
+    this.getAudioLinks();
+    // this.generateAudios();
   },
 
   components: {

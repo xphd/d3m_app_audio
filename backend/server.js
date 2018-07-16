@@ -42,24 +42,29 @@ io.on("connection", socket => {
   // socket.on("start", () => {
   //   socket.emit("customEmit", 1234);
   // });
-  var audio = {
-    id: "id_1",
-    url: "http://localhost:3000/Beethoven_12_Variation.mp3"
-  };
-  socket.on("getAudio", () => {
-    console.log("returnAudio emitted");
-    socket.emit("returnAudio", audio);
-  });
+  // var audio = {
+  //   id: "id_1",
+  //   url: "http://localhost:3000/Beethoven_12_Variation.mp3"
+  // };
+  // socket.on("getAudio", () => {
+  //   console.log("returnAudio emitted");
+  //   socket.emit("returnAudio", audio);
+  // });
 
+  // listen to "getAudioLinks" emmited from frontend
   socket.on("getAudioLinks", () => {
     console.log("getAudioLinks activated");
+    // get the list of links to audio file in this server
     var audioLinks = [];
     const testFolder = "./public/";
     fs.readdirSync(testFolder).forEach(file => {
-      audioLinks.push(file);
+      audioLinks.push("http://localhost:3000/" + file);
     });
     console.log("returnAudioLinks activated");
+
+    // emit "returnAudioLinks" to the frontend with audioLinks
     socket.emit("returnAudioLinks", audioLinks);
+    console.log(audioLinks);
   });
 });
 

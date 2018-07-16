@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <h1>Hello World!</h1>
-    <button @click="sendRequest">Get Audio</button>
-    <button @click="getAudioLinks">Get Audio Links</button>
+    <!-- <button @click="sendRequest">Get Audio</button> -->
+    <!-- <button @click="getAudioLinks">Get Audio Links</button> -->
     <RawAudioView></RawAudioView>
 
   </div>
@@ -13,35 +13,43 @@ import RawAudioView from "./components/cards/RawAudioView.vue";
 
 export default {
   name: "app",
-  data() {
-    return {};
-  },
+
   components: {
     RawAudioView
   },
-  sockets: {
-    connect: function() {
-      console.log("Client: get Server");
-    },
+  // sockets: {
+  //   connect: function() {
+  //     console.log("Client: get Server");
+  //   },
 
-    returnAudio: function(audio) {
-      console.log(audio);
-    },
+  //   returnAudio: function(audio) {
+  //     console.log(audio);
+  //   },
 
-    returnAudioLinks: function(audioLinks) {
-      console.log(audioLinks);
-    }
-  },
-  methods: {
-    sendRequest() {
-      console.log("sendRequest activate");
-      this.$socket.emit("getAudio");
-    },
+  //   // listen for "returnAudioLinks" emmited from backend with data "audioLinks"
+  //   returnAudioLinks: function(audioLinks) {
+  //     // console.log(audioLinks);
 
-    getAudioLinks() {
-      this.$socket.emit("getAudioLinks");
-    }
-  }
+  //     this.$store.commit("setAudioLinks", audioLinks);
+  //     console.log("From store getters getAudioLinks");
+  //     console.log(this.$store.getters.getAudioLinks);
+  //   }
+  // },
+  // methods: {
+  //   sendRequest() {
+  //     console.log("sendRequest activate");
+  //     this.$socket.emit("getAudio");
+  //   },
+
+  //   // emit "getAudioLinks" to backend server
+  //   getAudioLinks() {
+  //     console.log("getAudioLinks emitted");
+  //     this.$socket.emit("getAudioLinks");
+  //   }
+  // },
+  // created() {
+  //   this.getAudioLinks();
+  // }
 };
 </script>
 
