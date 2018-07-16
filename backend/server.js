@@ -32,24 +32,10 @@ app.use(function(req, res, next) {
 });
 
 app.use(express.static("public"));
-
 var server = http.createServer(app);
-
 var io = socketIO(server);
 io.on("connection", socket => {
   console.log("Server: get Client");
-
-  // socket.on("start", () => {
-  //   socket.emit("customEmit", 1234);
-  // });
-  // var audio = {
-  //   id: "id_1",
-  //   url: "http://localhost:3000/Beethoven_12_Variation.mp3"
-  // };
-  // socket.on("getAudio", () => {
-  //   console.log("returnAudio emitted");
-  //   socket.emit("returnAudio", audio);
-  // });
 
   // listen to "getAudioLinks" emmited from frontend
   socket.on("getAudioLinks", () => {
