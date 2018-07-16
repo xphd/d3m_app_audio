@@ -5,7 +5,7 @@
         <RawAudioViewSingle :audio='audio' :key="audio.id"></RawAudioViewSingle>
     </template>
     <br>
-    <button @click="loadAudios" class="btn btn-primary">Load More</button>
+    <button @click="loadAudios()" class="btn btn-primary">Load More</button>
 </div>
 </template>
 
@@ -14,7 +14,7 @@ import RawAudioViewSingle from "./RawAudioViewSingle.vue";
 export default {
   data: function() {
     return {
-      numOfFirstLoaded: 2, // numver of audios firstly loaded
+      numOfFirstLoaded: 3, // numver of audios firstly loaded
       numOfEachLoaded: 1, // numver of audios loaded each time the button is pressed
 
       audioLinks: [], // list of audios from backend response
@@ -31,8 +31,10 @@ export default {
 
     // listen for "returnAudioLinks" emmited from backend with data "audioLinks"
     responseAudioLinks: function(audioLinks) {
-      this.$store.commit("setAudioLinks", audioLinks); // update data in store
+      this.$store.dispatch("updateAudioLinks", audioLinks); // update data in store
       this.audioLinks = this.$store.getters.getAudioLinks; // update data in this vue object
+      // this.audioLinks = audioLinks;
+
       this.numOfAudioLinks = this.audioLinks.length; // update numOfAudioLinks
 
       this.loadAudios(this.numOfFirstLoaded); // when get audioLinks from backend, load some of them
@@ -40,7 +42,7 @@ export default {
   },
   methods: {
     loadAudios(numToLoad = this.numOfEachLoaded) {
-      // console.log("loadAudios called");
+      console.log("loadAudios called");
       // if all audios have been loaded, indexOfLastLoaded is same as numOfAudioLinks-1, then return
       if (this.indexOfLastLoaded == this.numOfAudioLinks - 1) {
         console.log("No more audio to load");

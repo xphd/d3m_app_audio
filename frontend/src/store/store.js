@@ -5,25 +5,23 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    audioLinks: [
-      // "https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3",
-      // "https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3"
-      // "https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3",
-      // "https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3",
-      // "https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3",
-      // "https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3",
-      // "https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3",
-      // "https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3",
-      // "https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3"
-    ]
+    audioLinks: []
   },
   getters: {
     getAudioLinks: state => {
       return state.audioLinks;
     }
   },
+  actions: {
+    updateAudioLinks(context, audioLinks) {
+      console.log("actions");
+      context.commit("updateAudioLinks", audioLinks);
+    }
+  },
   mutations: {
-    setAudioLinks: (state, audioLinks) => {
+    updateAudioLinks: (state, audioLinks) => {
+      console.log("mutations");
+      console.log(audioLinks[0]);
       state.audioLinks = audioLinks;
     }
   }
