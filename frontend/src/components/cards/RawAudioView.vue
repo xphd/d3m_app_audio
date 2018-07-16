@@ -30,9 +30,9 @@ export default {
     },
 
     // listen for "returnAudioLinks" emmited from backend with data "audioLinks"
-    returnAudioLinks: function(audioLinks) {
+    responseAudioLinks: function(audioLinks) {
       this.$store.commit("setAudioLinks", audioLinks); // update data in store
-      this.audioLinks = this.$store.state.audioLinks; // update data in this vue object
+      this.audioLinks = this.$store.getters.getAudioLinks; // update data in this vue object
       this.numOfAudioLinks = this.audioLinks.length; // update numOfAudioLinks
 
       this.loadAudios(this.numOfFirstLoaded); // when get audioLinks from backend, load some of them
@@ -62,13 +62,13 @@ export default {
     },
 
     // emit "getAudioLinks" to backend server
-    getAudioLinks() {
+    requestAudioLinks() {
       // console.log("getAudioLinks emitted");
-      this.$socket.emit("getAudioLinks");
+      this.$socket.emit("requestAudioLinks");
     }
   },
   created() {
-    this.getAudioLinks();
+    this.requestAudioLinks();
   },
   components: {
     RawAudioViewSingle

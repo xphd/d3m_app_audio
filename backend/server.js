@@ -38,18 +38,18 @@ io.on("connection", socket => {
   console.log("Server: get Client");
 
   // listen to "getAudioLinks" emmited from frontend
-  socket.on("getAudioLinks", () => {
-    console.log("getAudioLinks activated");
+  socket.on("requestAudioLinks", () => {
+    console.log("requestAudioLinks activated");
     // get the list of links to audio file in this server
     var audioLinks = [];
     const testFolder = "./public/";
     fs.readdirSync(testFolder).forEach(file => {
       audioLinks.push("http://localhost:3000/" + file);
     });
-    console.log("returnAudioLinks activated");
+    console.log("responseAudioLinks activated");
 
     // emit "returnAudioLinks" to the frontend with audioLinks
-    socket.emit("returnAudioLinks", audioLinks);
+    socket.emit("responseAudioLinks", audioLinks);
     console.log(audioLinks);
   });
 });
