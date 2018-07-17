@@ -14,14 +14,14 @@ export const store = new Vuex.Store({
   },
   actions: {
     updateAudioLinks(context, audioLinks) {
-      console.log("actions");
+      // console.log("actions");
       context.commit("updateAudioLinks", audioLinks);
     }
   },
   mutations: {
     updateAudioLinks: (state, audioLinks) => {
-      console.log("mutations");
-      console.log(audioLinks[0]);
+      // console.log("mutations");
+      // console.log(audioLinks[0]);
       state.audioLinks = audioLinks;
     }
   }

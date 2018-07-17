@@ -1,26 +1,31 @@
 <template>
 <div>
     <p>{{ name }}</p>
-    <div :id="id"></div>
-    <div style="text-align: center">
-        <button class="btn btn-primary" @click="wavesurfer.skipBackward()">
+    <div v-if="playable">
+        <div :id="id"></div>
+        <div style="text-align: center">
+            <button class="btn btn-primary" @click="wavesurfer.skipBackward()">
             <i class="glyphicon glyphicon-step-backward"></i>
             Backward
         </button>
-        <button class="btn btn-primary" @click="wavesurfer.playPause()">
+            <button class="btn btn-primary" @click="wavesurfer.playPause()">
             <i class="glyphicon glyphicon-play"></i>
             Play /
             <i class="glyphicon glyphicon-pause"></i>
             Pause
         </button>
-        <button class="btn btn-primary" @click="wavesurfer.skipForward()">
+            <button class="btn btn-primary" @click="wavesurfer.skipForward()">
             <i class="glyphicon glyphicon-step-forward"></i>
             Forward
         </button>
-        <button class="btn btn-primary" @click="wavesurfer.toggleMute()">
+            <button class="btn btn-primary" @click="wavesurfer.toggleMute()">
             <i class="glyphicon glyphicon-volume-off"></i>
             Toggle Mute
         </button>
+        </div>
+    </div>
+    <div v-else>
+        <p>Audio is not playable</p>
     </div>
     <hr>
 </div>
@@ -37,8 +42,16 @@ export default {
       // pass the audio info
       id: "audio" + this.audio.id,
       link: this.audio.link,
-      name: ""
+      name: "name",
+
+      playable: true
     };
+  },
+  methods: {
+    // handleError called when audio is not playable
+    audioNotPlayable(message) {
+      this.playable = false;
+    }
   },
 
   // after the template is crated, mount it
@@ -52,6 +65,7 @@ export default {
       progressColor: "purple"
     });
     this.wavesurfer.load(this.link);
+    this.wavesurfer.on("error", this.audioNotPlayable);
 
     // get the name of audio file, that is the last part of link
     var temp = this.link.split("/");
