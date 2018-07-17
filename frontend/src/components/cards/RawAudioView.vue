@@ -1,6 +1,5 @@
 <template>
-<div>
-    <!-- <p>RawAudioViews Parent</p> -->
+<div>    
     <div>
         <template v-for="audio in audios">
             <RawAudioViewSingle :audio='audio' :key="audio.id"></RawAudioViewSingle>
@@ -9,7 +8,8 @@
     <br>
     <p><strong>{{ indexOfLastLoaded+1 }}</strong> of {{ numOfAudioLinks }} Loaded</p>
     <br>
-    <button @click="loadAudios()" class="btn btn-success btn-lg">Load Another {{numOfEachLoaded}}</button>
+    <button v-if="isMoreAudios" @click="loadAudios()" class="btn btn-success btn-lg">Load Another {{numOfEachLoaded}}</button>
+    <button v-else class="btn btn-warning btn-lg">No More Audios</button>
 </div>
 </template>
 
@@ -18,58 +18,54 @@ import RawAudioViewSingle from "./RawAudioViewSingle.vue";
 export default {
   data: function() {
     return {
-      numOfFirstLoaded: 10, // numver of audios firstly loaded
+      numOfFirstLoaded: 2, // numver of audios firstly loaded
       numOfEachLoaded: 5, // numver of audios loaded each time the button is pressed
 
       audioLinks: [], // list of audios from backend response
       audios: [], // audio objects, {id, audioLink} where auidoLink is from audioLinks
 
       numOfAudioLinks: 0, // number of audioLinks totally, initialize as 0
-      indexOfLastLoaded: -1 // record the index of the last loaded audio
+      indexOfLastLoaded: -1, // record the index of the last loaded audio
+
+      isMoreAudios: true
     };
   },
   sockets: {
     connect: function() {
-      console.log("Client: connect to Server");
+      // console.log("Client: connect to Server");
     },
-
     // listen for "returnAudioLinks" emmited from backend with data "audioLinks"
     responseAudioLinks: function(audioLinks) {
       this.$store.dispatch("updateAudioLinks", audioLinks); // update data in store
       this.audioLinks = this.$store.getters.getAudioLinks; // update data in this vue object
-      // this.audioLinks = audioLinks;
-
       this.numOfAudioLinks = this.audioLinks.length; // update numOfAudioLinks
-
       this.loadAudios(this.numOfFirstLoaded); // when get audioLinks from backend, load some of them
     }
   },
   methods: {
     loadAudios(numToLoad = this.numOfEachLoaded) {
-      console.log("loadAudios called");
-      // if all audios have been loaded, indexOfLastLoaded is same as numOfAudioLinks-1, then return
-      if (this.indexOfLastLoaded == this.numOfAudioLinks - 1) {
-        console.log("No more audio to load");
+      // if there is no more audios, then return
+      if (!this.isMoreAudios) {
         return;
       }
       var len = this.numOfAudioLinks;
       var indexLastEnd = this.indexOfLastLoaded;
       var indexEnd = Math.min(indexLastEnd + numToLoad, len - 1);
       this.indexOfLastLoaded = indexEnd;
-
       for (var i = indexLastEnd + 1; i <= indexEnd; i++) {
         var audio = {
           id: i,
           link: this.audioLinks[i]
         };
         this.audios.push(audio);
-        // console.log(audio);
+      }
+      // if all audios have been loaded, indexOfLastLoaded is same as numOfAudioLinks-1, no more audio to load
+      if (this.indexOfLastLoaded == this.numOfAudioLinks - 1) {
+        this.isMoreAudios = false;
       }
     },
-
     // emit "getAudioLinks" to backend server
     requestAudioLinks() {
-      // console.log("getAudioLinks emitted");
       this.$socket.emit("requestAudioLinks");
     }
   },

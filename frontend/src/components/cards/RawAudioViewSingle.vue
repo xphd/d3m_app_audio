@@ -1,27 +1,22 @@
 <template>
 <div>
-    <!-- <p>RawAudioView Child</p> -->
     <p>{{ name }}</p>
-    <!-- #waveform will be replaced later by WaveSurfer -->
     <div :id="id"></div>
     <div style="text-align: center">
         <button class="btn btn-primary" @click="wavesurfer.skipBackward()">
             <i class="glyphicon glyphicon-step-backward"></i>
             Backward
         </button>
-
         <button class="btn btn-primary" @click="wavesurfer.playPause()">
             <i class="glyphicon glyphicon-play"></i>
             Play /
             <i class="glyphicon glyphicon-pause"></i>
             Pause
         </button>
-
         <button class="btn btn-primary" @click="wavesurfer.skipForward()">
             <i class="glyphicon glyphicon-step-forward"></i>
             Forward
         </button>
-
         <button class="btn btn-primary" @click="wavesurfer.toggleMute()">
             <i class="glyphicon glyphicon-volume-off"></i>
             Toggle Mute
@@ -62,10 +57,6 @@ export default {
     var temp = this.link.split("/");
     this.name = temp[temp.length - 1];
   }
-
-  // created() {
-  //   console.log(this.link);
-  // },
 };
 </script>
 
