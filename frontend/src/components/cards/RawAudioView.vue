@@ -37,8 +37,10 @@ export default {
     },
     // listen for "returnAudioLinks" emmited from backend with data "audioLinks"
     responseAudioLinks: function(audioLinks) {
-      this.$store.dispatch("updateAudioLinks", audioLinks); // update data in store
-      this.audioLinks = this.$store.getters.getAudioLinks; // update data in this vue object
+      // this.$store.dispatch("updateAudioLinks", audioLinks); // update data in store
+      // this.audioLinks = this.$store.getters.getAudioLinks; // update data in this vue object
+      this.$store.audioLinks = audioLinks;
+      this.audioLinks = this.$store.audioLinks;
       this.numOfAudioLinks = this.audioLinks.length; // update numOfAudioLinks
       this.loadAudios(this.numOfFirstLoaded); // when get audioLinks from backend, load some of them
     }
@@ -82,5 +84,6 @@ export default {
 <style scoped>
 input {
   text-align: right;
+  border: 1px solid black;
 }
 </style>

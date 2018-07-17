@@ -25,7 +25,7 @@
         </div>
     </div>
     <div v-else>
-        <p>Audio is not playable</p>
+        <strong>This Audio Is Not Playable.</strong>
     </div>
     <hr>
 </div>
@@ -36,15 +36,12 @@ export default {
   props: ["audio"], // audio is an object with id and url of audio file
   data: function() {
     return {
-      // wavefurfer will be created by WaveSurfer.create()
-      wavesurfer: null,
-
+      playable: true,
+      wavesurfer: null, // wavefurfer will be created by WaveSurfer.create()
       // pass the audio info
       id: "audio" + this.audio.id,
       link: this.audio.link,
-      name: "name",
-
-      playable: true
+      name: "name"
     };
   },
   methods: {
@@ -58,7 +55,6 @@ export default {
   // WaveSurfer is from wavesurfer.min.js, it can be accessed from window
   // that's why to use window.WaveSurfer
   mounted() {
-    //wavesurfer is declared in Vue data component
     this.wavesurfer = window.WaveSurfer.create({
       container: "#" + this.id,
       waveColor: "red",
