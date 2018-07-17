@@ -27,6 +27,7 @@
             Toggle Mute
         </button>
     </div>
+    <hr>
 </div>
 </template>
 

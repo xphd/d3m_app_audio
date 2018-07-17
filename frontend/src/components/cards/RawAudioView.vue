@@ -1,13 +1,15 @@
 <template>
-<div>
+<div class='container'>
     <!-- <p>RawAudioViews Parent</p> -->
-    <template v-for="audio in audios">
-        <RawAudioViewSingle :audio='audio' :key="audio.id"></RawAudioViewSingle>
-    </template>
+    <div>
+        <template v-for="audio in audios">
+            <RawAudioViewSingle :audio='audio' :key="audio.id"></RawAudioViewSingle>
+        </template>
+    </div>
     <br>
     <p><strong>{{ indexOfLastLoaded+1 }}</strong> of {{ numOfAudioLinks }} Loaded</p>
     <br>
-    <button @click="loadAudios()" class="btn btn-primary">Load More</button>
+    <button @click="loadAudios()" class="btn btn-success btn-lg">Load Another {{numOfEachLoaded}}</button>
 </div>
 </template>
 
