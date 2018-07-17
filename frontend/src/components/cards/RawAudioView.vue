@@ -5,6 +5,8 @@
         <RawAudioViewSingle :audio='audio' :key="audio.id"></RawAudioViewSingle>
     </template>
     <br>
+    <p>{{ indexOfLastLoaded+1 }} of {{ numOfAudioLinks }} loaded</p>
+    <br>
     <button @click="loadAudios()" class="btn btn-primary">Load More</button>
 </div>
 </template>
@@ -14,8 +16,8 @@ import RawAudioViewSingle from "./RawAudioViewSingle.vue";
 export default {
   data: function() {
     return {
-      numOfFirstLoaded: 3, // numver of audios firstly loaded
-      numOfEachLoaded: 1, // numver of audios loaded each time the button is pressed
+      numOfFirstLoaded: 10, // numver of audios firstly loaded
+      numOfEachLoaded: 5, // numver of audios loaded each time the button is pressed
 
       audioLinks: [], // list of audios from backend response
       audios: [], // audio objects, {id, audioLink} where auidoLink is from audioLinks
