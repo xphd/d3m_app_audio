@@ -1,5 +1,5 @@
 <template>
-<div class='container'>
+<div>
     <!-- <p>RawAudioViews Parent</p> -->
     <div>
         <template v-for="audio in audios">
