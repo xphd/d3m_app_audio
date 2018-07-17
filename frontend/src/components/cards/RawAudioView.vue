@@ -1,11 +1,11 @@
 <template>
 <div>
-    <p>RawAudioViews Parent</p>
+    <!-- <p>RawAudioViews Parent</p> -->
     <template v-for="audio in audios">
         <RawAudioViewSingle :audio='audio' :key="audio.id"></RawAudioViewSingle>
     </template>
     <br>
-    <p>{{ indexOfLastLoaded+1 }} of {{ numOfAudioLinks }} loaded</p>
+    <p><strong>{{ indexOfLastLoaded+1 }}</strong> of {{ numOfAudioLinks }} Loaded</p>
     <br>
     <button @click="loadAudios()" class="btn btn-primary">Load More</button>
 </div>

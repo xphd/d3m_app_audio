@@ -1,7 +1,7 @@
 <template>
 <div>
-    <p>RawAudioView Child</p>
-    <p>{{ link }}</p>
+    <!-- <p>RawAudioView Child</p> -->
+    <p>{{ name }}</p>
     <!-- #waveform will be replaced later by WaveSurfer -->
     <div :id="id"></div>
     <div style="text-align: center">
@@ -40,7 +40,8 @@ export default {
 
       // pass the audio info
       id: "audio" + this.audio.id,
-      link: this.audio.link
+      link: this.audio.link,
+      name: ""
     };
   },
 
@@ -55,6 +56,10 @@ export default {
       progressColor: "purple"
     });
     this.wavesurfer.load(this.link);
+
+    // get the name of audio file, that is the last part of link
+    var temp = this.link.split("/");
+    this.name = temp[temp.length - 1];
   }
 
   // created() {
