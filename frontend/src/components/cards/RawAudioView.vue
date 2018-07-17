@@ -1,15 +1,19 @@
 <template>
-<div>    
+<div>
     <div>
         <template v-for="audio in audios">
             <RawAudioViewSingle :audio='audio' :key="audio.id"></RawAudioViewSingle>
         </template>
     </div>
-    <br>
     <p><strong>{{ indexOfLastLoaded+1 }}</strong> of {{ numOfAudioLinks }} Loaded</p>
-    <br>
-    <button v-if="isMoreAudios" @click="loadAudios()" class="btn btn-success btn-lg">Load Another {{numOfEachLoaded}}</button>
-    <button v-else class="btn btn-warning btn-lg">No More Audios</button>
+    <div v-if="isMoreAudios">
+        Load Another
+        <input type="number" min="1" max="500" v-model="numOfEachLoaded" value="numOfEachLoaded"> Videos
+        <button @click="loadAudios()" class="btn btn-success">Go!</button>
+    </div>
+    <div v-else>
+        <button disabled class="btn btn-warning">No More Audios</button>
+    </div>
 </div>
 </template>
 
@@ -20,13 +24,10 @@ export default {
     return {
       numOfFirstLoaded: 2, // numver of audios firstly loaded
       numOfEachLoaded: 5, // numver of audios loaded each time the button is pressed
-
       audioLinks: [], // list of audios from backend response
       audios: [], // audio objects, {id, audioLink} where auidoLink is from audioLinks
-
       numOfAudioLinks: 0, // number of audioLinks totally, initialize as 0
       indexOfLastLoaded: -1, // record the index of the last loaded audio
-
       isMoreAudios: true
     };
   },
@@ -79,4 +80,7 @@ export default {
 </script>
 
 <style scoped>
+input {
+  text-align: right;
+}
 </style>
