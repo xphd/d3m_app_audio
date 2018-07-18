@@ -28,13 +28,13 @@ import RawAudioViewSingle from "./RawAudioViewSingle.vue";
 export default {
   data: function() {
     return {
-      numOfFirstLoaded: 2, // numver of audios firstly loaded
-      numOfLoaded: 0,
-      numOfEachLoaded: 3, // numver of audios loaded each time the button is pressed
+      numOfFirstLoaded: 5, // number of audios firstly loaded
+      numOfLoaded: 0, // total number of loaded audio, this is just one more than indexOfLastLoaded
+      indexOfLastLoaded: -1, // record the index of the last loaded audio
+      numOfEachLoaded: 10, // numver of audios loaded each time the button is pressed
       audioLinks: [], // list of audios from backend response
       audios: [], // audio objects, {id, audioLink} where auidoLink is from audioLinks
       numOfAudioLinks: 0, // number of audioLinks totally, initialize as 0
-      indexOfLastLoaded: -1, // record the index of the last loaded audio
       isMoreAudios: true
     };
   },
@@ -54,11 +54,14 @@ export default {
   },
   methods: {
     loadAudiosTotal() {
-      var difference = this.numOfLoaded - 1 - this.indexOfLastLoaded;
+      // calculate the difference between wanted number of loaded audios and current number of loaded audios
+      var difference = this.numOfLoaded - (this.indexOfLastLoaded + 1);
       console.log(this.numOfLoaded);
       if (difference >= 0) {
+        // if difference > 0, aka wanted more than current, just load more "difference" audios
         this.loadAudios(difference);
       } else {
+        // else, pick up the first wanted number of audios, and update something
         this.audios = this.audios.splice(0, this.numOfLoaded);
         this.indexOfLastLoaded = this.numOfLoaded - 1;
         this.isMoreAudios = true;

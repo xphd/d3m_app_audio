@@ -50,7 +50,6 @@ export default {
       this.playable = false;
     }
   },
-
   // after the template is crated, mount it
   // WaveSurfer is from wavesurfer.min.js, it can be accessed from window
   // that's why to use window.WaveSurfer
@@ -62,7 +61,6 @@ export default {
     });
     this.wavesurfer.load(this.link);
     this.wavesurfer.on("error", this.audioNotPlayable);
-
     // get the name of audio file, that is the last part of link
     var temp = this.link.split("/");
     this.name = temp[temp.length - 1];
