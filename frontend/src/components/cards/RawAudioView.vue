@@ -8,11 +8,17 @@
     <p><strong>{{ indexOfLastLoaded+1 }}</strong> of {{ numOfAudioLinks }} Loaded</p>
     <div v-if="isMoreAudios">
         Load Another
-        <input type="number" min="1" max="500" v-model.number="numOfEachLoaded" > Videos
+        <input type="number" min="1" max="500" v-model.number="numOfEachLoaded"> Videos
         <button @click="loadAudios()" class="btn btn-success">Go!</button>
     </div>
     <div v-else>
         <button disabled class="btn btn-warning">No More Audios</button>
+    </div>
+    <br>
+    <div>
+        View First
+        <input type="number" min="1" :max="numOfAudioLinks" v-model.number="numOfLoaded"> Videos
+        <button @click="loadAudiosTotal()" class="btn btn-success">Go!</button>
     </div>
 </div>
 </template>
@@ -23,6 +29,7 @@ export default {
   data: function() {
     return {
       numOfFirstLoaded: 2, // numver of audios firstly loaded
+      numOfLoaded: 0,
       numOfEachLoaded: 3, // numver of audios loaded each time the button is pressed
       audioLinks: [], // list of audios from backend response
       audios: [], // audio objects, {id, audioLink} where auidoLink is from audioLinks
@@ -46,6 +53,17 @@ export default {
     }
   },
   methods: {
+    loadAudiosTotal() {
+      var difference = this.numOfLoaded - 1 - this.indexOfLastLoaded;
+      console.log(this.numOfLoaded);
+      if (difference >= 0) {
+        this.loadAudios(difference);
+      } else {
+        this.audios = this.audios.splice(0, this.numOfLoaded);
+        this.indexOfLastLoaded = this.numOfLoaded - 1;
+        this.isMoreAudios = true;
+      }
+    },
     loadAudios(numToLoad = this.numOfEachLoaded) {
       // if there is no more audios, then return
       if (!this.isMoreAudios) {
@@ -74,6 +92,7 @@ export default {
   },
   created() {
     this.requestAudioLinks();
+    this.numOfLoaded = this.numOfFirstLoaded;
   },
   components: {
     RawAudioViewSingle
