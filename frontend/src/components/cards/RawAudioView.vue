@@ -8,7 +8,7 @@
     <p><strong>{{ indexOfLastLoaded+1 }}</strong> of {{ numOfAudioLinks }} Loaded</p>
     <div v-if="isMoreAudios">
         Load Another
-        <input type="number" min="1" max="500" v-model="numOfEachLoaded" value="numOfEachLoaded"> Videos
+        <input type="number" min="1" max="500" v-model.number="numOfEachLoaded" > Videos
         <button @click="loadAudios()" class="btn btn-success">Go!</button>
     </div>
     <div v-else>
@@ -23,7 +23,7 @@ export default {
   data: function() {
     return {
       numOfFirstLoaded: 2, // numver of audios firstly loaded
-      numOfEachLoaded: 5, // numver of audios loaded each time the button is pressed
+      numOfEachLoaded: 3, // numver of audios loaded each time the button is pressed
       audioLinks: [], // list of audios from backend response
       audios: [], // audio objects, {id, audioLink} where auidoLink is from audioLinks
       numOfAudioLinks: 0, // number of audioLinks totally, initialize as 0

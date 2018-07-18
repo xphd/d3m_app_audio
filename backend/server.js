@@ -2,9 +2,10 @@ var express = require("express");
 var http = require("http");
 var socketIO = require("socket.io");
 var fs = require("fs");
-
 var app = express();
 var router = express.Router();
+
+const BASE_URL = "http://localhost:3000/";
 
 // Add headers
 app.use(function(req, res, next) {
@@ -39,18 +40,17 @@ io.on("connection", socket => {
 
   // listen to "getAudioLinks" emmited from frontend
   socket.on("requestAudioLinks", () => {
-    console.log("requestAudioLinks activated");
+    console.log("requestAudioLinks received");
     // get the list of links to audio file in this server
     var audioLinks = [];
     const testFolder = "./public/";
     fs.readdirSync(testFolder).forEach(file => {
-      audioLinks.push("http://localhost:3000/" + file);
+      audioLinks.push(BASE_URL + file);
     });
-    console.log("responseAudioLinks activated");
 
     // emit "returnAudioLinks" to the frontend with audioLinks
     socket.emit("responseAudioLinks", audioLinks);
-    console.log(audioLinks);
+    console.log("responseAudioLinks emitted");
   });
 });
 
