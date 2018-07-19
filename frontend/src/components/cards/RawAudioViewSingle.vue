@@ -37,11 +37,12 @@ export default {
   data: function() {
     return {
       playable: true,
-      wavesurfer: null, // wavefurfer will be created by WaveSurfer.create()
       // pass the audio info
       id: "audio" + this.audio.id,
       link: this.audio.link,
-      name: "name"
+      name: "", // assigned in mounted()
+
+      wavesurfer: null // wavefurfer will be created by WaveSurfer.create()
     };
   },
   methods: {
@@ -61,7 +62,7 @@ export default {
     });
     this.wavesurfer.load(this.link);
     this.wavesurfer.on("error", this.audioNotPlayable);
-    // get the name of audio file, that is the last part of link
+    // assign the name of audio file, that is the last part of link
     var temp = this.link.split("/");
     this.name = temp[temp.length - 1];
   }
